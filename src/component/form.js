@@ -26,7 +26,7 @@ class Form extends React.Component {
 
   render() {
     const { todo } = this.state;
-    //console.log(todo)
+
 
     return (
       <>

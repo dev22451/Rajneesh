@@ -56,16 +56,12 @@ class ListItem extends React.Component {
         console.log("check")
 
     }
-    /*isChecked = () => {
-        this.setState({ isChecked: true })
-        console.log("check")
-    }*/
-
-
-
 
     render() {
         const { item, handleDelete, toggleChange } = this.props;
+
+        const handelEditOn = () => this.onEdit(item.id)
+        const handleCheckOn = () => this.onCheck(this.props.id)
 
 
         if (this.state.onEdit) {
@@ -85,10 +81,10 @@ class ListItem extends React.Component {
             return (
                 <>
                     <div className="form-control form-label py-3 shadow p-3 my-3  bg-white rounded" >
-                        <input type="checkbox" className="form-check-input me-2" onChange={this.handleCheckboxChange} checked={this.state.isChecked} onClick={() => this.onCheck(this.props.id)} />
+                        <input type="checkbox" className="form-check-input me-2" onChange={this.handleCheckboxChange} checked={this.state.isChecked} onClick={handleCheckOn} />
                         <span className="fw-bold" >{item}</span>
                         <button className="btn btn-sm mx-2 float-sm-end  " id="btnDelete" disabled={this.state.isChecked}><i className="fas fa-trash-alt fa-lg  text-danger" id="btnDelete" title="Delete" onClick={this.onRemove}></i></button>
-                        <button className=" btn btn-sm  mb-3 float-sm-end" id="btnEdit" disabled={this.state.isChecked}><i className="fas fa-pencil fa-lg  text-warning " id="btnEdit" title="Edit" onClick={() => this.onEdit(item.id)} ></i></button>
+                        <button className=" btn btn-sm  mb-3 float-sm-end" id="btnEdit" disabled={this.state.isChecked}><i className="fas fa-pencil fa-lg  text-warning " id="btnEdit" title="Edit" onClick={handelEditOn} ></i></button>
                         {this.state.isChecked ? <span className="badge rounded-pill bg-secondary float-sm-end me-5 mt-1">Complete</span> : null}
                     </div>
                 </>

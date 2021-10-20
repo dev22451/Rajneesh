@@ -21,7 +21,6 @@ class App extends React.Component {
     this.setState({
       data: data.filter((item) => {
         return index !== item.id;
-        //console.log(data.filter(item, i))
       })
     })
   }
@@ -40,8 +39,6 @@ class App extends React.Component {
 
   render() {
     const { data } = this.state;
-    console.log(this.state);
-    //console.log(data[0].todo);
     return (
       <div>
         <div className="container-fluid ">
