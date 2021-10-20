@@ -1,25 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Form from "./component/form";
+import List from "./component/list";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends React.Component {
+
+  state = {
+    data: [{ id: new Date().getTime().toString(), todo: "Apple" }]
+  }
+
+
+  handleSubmit = (newVal) => {
+
+    this.setState({ data: [...this.state.data, newVal] })
+
+  }
+
+  handleRemove = (index) => {
+    const { data } = this.state;
+    this.setState({
+      data: data.filter((item) => {
+        return index !== item.id;
+      })
+    })
+  }
+
+  handleOnEdit = (editVal, id) => {
+    const { data } = this.state
+
+    data.forEach((item) => {
+      if (item.id === id) {
+        item.todo = editVal;
+      }
+
+    });
+    this.setState({ data: data });
+  }
+
+  render() {
+    const { data } = this.state;
+    return (
+      <div>
+        <div className="container-fluid ">
+          <Form onSubmit={this.handleSubmit} />
+          <List todo={data}
+            onDelete={this.handleRemove}
+            onEdit={this.handleOnEdit}
+          />
+
+        </div>
+      </div>
+
+
+    );
+  }
+
 }
-
 export default App;
