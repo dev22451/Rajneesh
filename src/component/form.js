@@ -10,6 +10,16 @@ class Form extends React.Component {
 
   handleInput = (e) => {
     const { name, value } = e.target;
+
+    this.setState({
+      [name]: value, id: new Date().getTime().toString(),
+    })
+
+  }
+  handleSearch = (e) => {
+    this.props.onSearch(e.target.value)
+    const { name, value } = e.target;
+
     this.setState({
       [name]: value, id: new Date().getTime().toString(),
     })
@@ -18,11 +28,14 @@ class Form extends React.Component {
 
   handleOnSubmit = (e) => {
     e.preventDefault();
-    this.props.onSubmit(this.state)
+    this.props.onSubmit(this.state, this.state.todo)
     this.setState({ todo: '' })
+    this.props.onSearch('')
+
 
 
   }
+
 
   render() {
     const { todo } = this.state;
@@ -36,8 +49,9 @@ class Form extends React.Component {
               <h1 className="text-center text-primary pt-3">To Do List </h1><br />
               <div className="input-group mb-3 px-4">
 
-                <input type="text" name="todo" id="todo" value={todo} onChange={this.handleInput} className="form-control " placeholder="Add Items..." />
-                <button type="submit" className="btn btn-primary" disabled={this.state.todo === ''}><i className="fas fa-plus-square fa-2x" title="Add Items"></i></button>
+
+                <input type="text" name="todo" id="todo" value={todo} onChange={this.handleSearch} className="form-control " placeholder="search" />
+                <button type="submit" className="btn btn-primary" ><i className="fas fa-plus-square fa-2x" title="Add Items"></i></button>
               </div>
             </form>
           </div >

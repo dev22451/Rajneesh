@@ -17,14 +17,19 @@ class List extends React.Component {
                         {
                             todo.map((item) => {
                                 const handleDeleteOn = () => { onDelete(item.id) }
-                                console.log(item)
-                                return <ListItem
-                                    item={item.todo}
-                                    key={item.id}
-                                    handleDelete={handleDeleteOn}
-                                    handleEdit={onEdit}
-                                    id={item.id}
-                                />
+                                const filterValue = this.props.filterValue;
+                                const todoName = item.todo;
+
+                                if ((!filterValue) || (todoName.indexOf(filterValue) !== -1)) {
+                                    return <ListItem
+                                        item={item.todo}
+                                        key={item.id}
+                                        handleDelete={handleDeleteOn}
+                                        handleEdit={onEdit}
+                                        id={item.id}
+
+                                    />
+                                }
                             })
                         }
                     </div>

@@ -1,7 +1,6 @@
 import React from "react";
 
 class ListItem extends React.Component {
-    //myRef = React.createRef();
     state = {
         onEdit: false,
         editVal: this.props.item,
@@ -53,7 +52,7 @@ class ListItem extends React.Component {
     toggleChange = () => {
 
         this.setState({ isChecked: !this.state.isChecked });
-        console.log("check")
+
 
     }
 

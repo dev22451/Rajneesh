@@ -6,14 +6,22 @@ import List from "./component/list";
 class App extends React.Component {
 
   state = {
-    data: [{ id: new Date().getTime().toString(), todo: "Apple" }]
+    data: [{ id: new Date().getTime().toString(), todo: "Apple" }],
+    filterText: ''
+
   }
 
+  serText = (serVal) => {
+    this.setState({ filterText: serVal });
 
-  handleSubmit = (newVal) => {
+  }
 
-    this.setState({ data: [...this.state.data, newVal] })
+  handleSubmit = (newVal, todo) => {
+    const { data } = this.state
 
+    if (todo !== "") {
+      this.setState({ data: [...this.state.data, newVal] })
+    }
   }
 
   handleRemove = (index) => {
@@ -39,17 +47,23 @@ class App extends React.Component {
 
   render() {
     const { data } = this.state;
+
+
     return (
       <div>
         <div className="container-fluid ">
-          <Form onSubmit={this.handleSubmit} />
+          <Form onSubmit={this.handleSubmit}
+            onSearch={this.serText}
+
+          />
           <List todo={data}
             onDelete={this.handleRemove}
             onEdit={this.handleOnEdit}
+            filterValue={this.state.filterText}
           />
 
         </div>
-      </div>
+      </div >
 
 
     );
