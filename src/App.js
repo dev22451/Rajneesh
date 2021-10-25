@@ -1,73 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import Form from "./component/form";
 import List from "./component/list";
 
 
-class App extends React.Component {
+const App = (props) => {
 
-  state = {
-    data: [{ id: new Date().getTime().toString(), todo: "Apple" }],
-    filterText: ''
+  const [data, setData] = useState([{ id: new Date().getTime().toString(), todo: "Apple" }]);
+  const [filterText, setFilterText] = useState('');
 
+
+  const serText = (serVal) => {
+    setFilterText(serVal)
   }
 
-  serText = (serVal) => {
-    this.setState({ filterText: serVal });
-
-  }
-
-  handleSubmit = (newVal, todo) => {
-    const { data } = this.state
-
+  const handleSubmit = (newVal, todo) => {
     if (todo !== "") {
-      this.setState({ data: [...this.state.data, newVal] })
+      setData([...data, newVal])
     }
   }
+  const handleRemove = (index) => {
 
-  handleRemove = (index) => {
-    const { data } = this.state;
-    this.setState({
-      data: data.filter((item) => {
-        return index !== item.id;
-      })
+    const updateItems = data.filter((item) => {
+      return index !== item.id;
     })
+    setData(updateItems);
   }
 
-  handleOnEdit = (editVal, id) => {
-    const { data } = this.state
+  const handleOnEdit = (editVal, id) => {
+    const abc = [...data]
 
-    data.forEach((item) => {
+    abc.map((item) => {
       if (item.id === id) {
         item.todo = editVal;
       }
-
+      return item
     });
-    this.setState({ data: data });
+
+    setData(abc)
   }
 
-  render() {
-    const { data } = this.state;
+  return (
+    <div>
+      <div className="container-fluid ">
+        <Form onSubmit={handleSubmit}
+          onSearch={serText}
+
+        />
+        <List todo={data}
+          onDelete={handleRemove}
+          onEdit={handleOnEdit}
+          filterValue={filterText}
+        />
+
+      </div>
+    </div >
 
 
-    return (
-      <div>
-        <div className="container-fluid ">
-          <Form onSubmit={this.handleSubmit}
-            onSearch={this.serText}
-
-          />
-          <List todo={data}
-            onDelete={this.handleRemove}
-            onEdit={this.handleOnEdit}
-            filterValue={this.state.filterText}
-          />
-
-        </div>
-      </div >
-
-
-    );
-  }
-
+  )
 }
+
+
 export default App;

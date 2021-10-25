@@ -1,66 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 
-class Form extends React.Component {
+const Form = (props) => {
 
-  state = {
+  const [input, setInput] = useState({ id: '', todo: '' });
 
-    id: '',
-    todo: '',
-  };
 
-  handleInput = (e) => {
+  const handleInput = (e) => {
     const { name, value } = e.target;
 
-    this.setState({
+    setInput({
       [name]: value, id: new Date().getTime().toString(),
     })
 
   }
-  handleSearch = (e) => {
-    this.props.onSearch(e.target.value)
+  const handleSearch = (e) => {
+    props.onSearch(e.target.value)
     const { name, value } = e.target;
 
-    this.setState({
+    setInput({
       [name]: value, id: new Date().getTime().toString(),
     })
 
   }
 
-  handleOnSubmit = (e) => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
-    this.props.onSubmit(this.state, this.state.todo)
-    this.setState({ todo: '' })
-    this.props.onSearch('')
-
-
-
+    props.onSubmit(input, input.todo)
+    setInput({ todo: '' })
+    props.onSearch('')
   }
+  const todo = input.todo;
+
+  return (
+    <>
+      <div className="row justify-content-center px-5  ">
+        <div className="col-sm-4 bg-secondary mt-5 px-4">
+          <form onSubmit={handleOnSubmit}>
+            <h1 className="text-center text-primary pt-3">To Do List </h1><br />
+            <div className="input-group mb-3 px-4">
 
 
-  render() {
-    const { todo } = this.state;
-
-
-    return (
-      <>
-        <div className="row justify-content-center px-5  ">
-          <div className="col-sm-4 bg-secondary mt-5 px-4">
-            <form onSubmit={this.handleOnSubmit}>
-              <h1 className="text-center text-primary pt-3">To Do List </h1><br />
-              <div className="input-group mb-3 px-4">
-
-
-                <input type="text" name="todo" id="todo" value={todo} onChange={this.handleSearch} className="form-control " placeholder="search" />
-                <button type="submit" className="btn btn-primary" ><i className="fas fa-plus-square fa-2x" title="Add Items"></i></button>
-              </div>
-            </form>
-          </div >
+              <input type="text" name="todo" id="todo" value={todo} onChange={handleSearch} className="form-control " placeholder="search" />
+              <button type="submit" className="btn btn-primary" ><i className="fas fa-plus-square fa-2x" title="Add Items"></i></button>
+            </div>
+          </form>
         </div >
+      </div >
 
-      </>
-    );
+    </>
+  )
 
-  }
 }
+
 
 export default Form;
