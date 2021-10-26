@@ -14,7 +14,11 @@ const App = (props) => {
   }
 
   const handleSubmit = (newVal, todo) => {
-    if (todo !== "") {
+    const arrData = data.map((item) => {
+      return item.todo
+    })
+    const xyx = arrData.map(e => e.toLocaleLowerCase()).includes(todo.toLocaleLowerCase());
+    if (xyx == false && todo !== "") {
       setData([...data, newVal])
     }
   }
