@@ -2,13 +2,21 @@ import React, { useState } from "react";
 import Form from "./component/form";
 import List from "./component/list";
 
-
 const App = (props) => {
 
-  const [data, setData] = useState([{ id: new Date().getTime().toString(), todo: "Apple" }]);
+  const [data, setData] = useState([]);
   const [filterText, setFilterText] = useState('');
 
-
+  const handleCheck = (checked, id) => {
+    const getData = [...data]
+    getData.map((item) => {
+      if (item.id === id) {
+        item.isChecked = checked;
+      }
+      return item
+    });
+    setData(getData)
+  }
   const serText = (serVal) => {
     setFilterText(serVal)
   }
@@ -17,8 +25,8 @@ const App = (props) => {
     const arrData = data.map((item) => {
       return item.todo
     })
-    const xyx = arrData.map(e => e.toLocaleLowerCase()).includes(todo.toLocaleLowerCase());
-    if (xyx == false && todo !== "") {
+    const validate = arrData.map(e => e.toLocaleLowerCase()).includes(todo.toLocaleLowerCase());
+    if (validate === false && todo !== "") {
       setData([...data, newVal])
     }
   }
@@ -31,16 +39,16 @@ const App = (props) => {
   }
 
   const handleOnEdit = (editVal, id) => {
-    const abc = [...data]
+    const getData = [...data]
 
-    abc.map((item) => {
+    getData.map((item) => {
       if (item.id === id) {
         item.todo = editVal;
       }
       return item
     });
 
-    setData(abc)
+    setData(getData)
   }
 
   return (
@@ -48,20 +56,15 @@ const App = (props) => {
       <div className="container-fluid ">
         <Form onSubmit={handleSubmit}
           onSearch={serText}
-
         />
         <List todo={data}
           onDelete={handleRemove}
           onEdit={handleOnEdit}
           filterValue={filterText}
+          handleOnCheck={handleCheck}
         />
-
       </div>
     </div >
-
-
   )
 }
-
-
 export default App;
