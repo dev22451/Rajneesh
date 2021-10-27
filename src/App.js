@@ -8,27 +8,33 @@ const App = (props) => {
   const [filterText, setFilterText] = useState('');
 
   const handleCheck = (checked, id) => {
-    const getData = [...data]
-    getData.map((item) => {
+    const newData = [...data]
+    newData.map((item) => {
       if (item.id === id) {
         item.isChecked = checked;
       }
       return item
     });
-    setData(getData)
+    setData(newData)
+    return null
+
   }
   const serText = (serVal) => {
     setFilterText(serVal)
   }
 
-  const handleSubmit = (newVal, todo) => {
-    const arrData = data.map((item) => {
-      return item.todo
-    })
-    const validate = arrData.map(e => e.toLocaleLowerCase()).includes(todo.toLocaleLowerCase());
-    if (validate === false && todo !== "") {
+  const handleSubmit = (newVal, val) => {
+    if (data.length === 0) {
       setData([...data, newVal])
+    } else {
+      data.map((item) => {
+        const validate = data.filter((i) => i.todo.toLowerCase() === val.toLowerCase());
+        if (validate.length === 0) {
+          setData([...data, newVal])
+        } return null
+      });
     }
+
   }
   const handleRemove = (index) => {
 
@@ -39,16 +45,16 @@ const App = (props) => {
   }
 
   const handleOnEdit = (editVal, id) => {
-    const getData = [...data]
+    const newData = [...data]
 
-    getData.map((item) => {
+    newData.map((item) => {
       if (item.id === id) {
         item.todo = editVal;
       }
       return item
     });
 
-    setData(getData)
+    setData(newData)
   }
 
   return (

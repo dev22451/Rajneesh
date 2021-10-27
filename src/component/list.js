@@ -2,12 +2,13 @@ import React from "react";
 import ListItem from "./listitem";
 
 const List = (props) => {
+    const data = props.todo;
     return (
         <>
             <div className="row justify-content-center  ">
                 <div className="col-sm-4 bg-secondary pb-3 shadow-lg rounded py-4">
                     {
-                        props.todo.map((item) => {
+                        data.map((item) => {
                             const handleDeleteOn = () => props.onDelete(item.id);
                             const filterValue = props.filterValue
                             const todoName = item.todo
@@ -27,6 +28,7 @@ const List = (props) => {
                                     checked={item.isChecked}
                                 />
                             }
+                            return null
                         })
                     }
                 </div>

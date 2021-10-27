@@ -2,9 +2,13 @@ import React, { useState } from "react";
 
 const ListItem = (props) => {
 
+    const checkedData = props.checked;
+    const data = props.item;
+    const id = props.id;
+
     const [edit, setonEdit] = useState(false);
-    const [editVal, setEditVal] = useState(props.item);
-    const [isChecked, setIsChecked] = useState(props.checked);
+    const [editVal, setEditVal] = useState(data);
+    const [isChecked, setIsChecked] = useState(checkedData);
 
     const onRemove = () => {
         setTimeout(() => {
@@ -20,17 +24,17 @@ const ListItem = (props) => {
 
     const handleSave = () => {
         if (editVal === '') {
-            setEditVal(props.item)
+            setEditVal(data)
         } else {
-            props.handleEdit(editVal, props.id);
+            props.handleEdit(editVal, id);
         }
         setonEdit(false)
     }
     const handleCheckboxChange = () => setIsChecked(!isChecked);
 
     const handleCheckOn = () => {
-        onCheck(props.id)
-        props.onChecked(!isChecked, props.id);
+        onCheck(id)
+        props.onChecked(!isChecked, id);
     }
 
     if (edit) {
@@ -75,7 +79,7 @@ const ListItem = (props) => {
                         checked={isChecked}
                         onClick={handleCheckOn}
                     />
-                    <span className="fw-bold" >{props.item}</span>
+                    <span className="fw-bold" >{data}</span>
                     <button
                         className="btn btn-sm mx-2 float-sm-end  " id="btnDelete" >
                         <i

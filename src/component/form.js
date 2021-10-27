@@ -2,20 +2,12 @@ import React, { useState } from "react";
 
 const Form = (props) => {
 
-  const [input, setInput] = useState({ id: '', todo: '', isChecked: null });
+  const [input, setInput] = useState({ id: '', todo: '', isChecked: '' });
 
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-
-    setInput({
-      [name]: value, id: new Date().getTime().toString(),
-    })
-  }
   const handleSearch = (e) => {
     props.onSearch(e.target.value)
-    const { name, value } = e.target;
     setInput({
-      [name]: value, id: new Date().getTime().toString(), isChecked: false,
+      todo: e.target.value, id: new Date().getTime().toString(), isChecked: false,
     })
   }
 
@@ -44,7 +36,8 @@ const Form = (props) => {
                 className="form-control "
               />
               <button type="submit" className="btn btn-primary" >
-                <i className="fas fa-plus-square fa-2x" title="Add Items"></i>
+                <i className="fas fa-plus-square fa-2x" title="Add Items">
+                </i>
               </button>
             </div>
           </form>
