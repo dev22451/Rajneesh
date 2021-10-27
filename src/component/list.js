@@ -1,37 +1,41 @@
 import React from "react";
 import ListItem from "./listitem";
 
-
-class List extends React.Component {
-
-
-
-
-    render() {
-        const { todo, onDelete, onEdit } = this.props;
-
-        return (
-            <>
-                <div className="row justify-content-center  ">
-                    <div className="col-sm-4 bg-secondary pb-3 shadow-lg rounded py-4">
-                        {
-                            todo.map((item) => {
-                                const handleDeleteOn = () => { onDelete(item.id) }
-                                console.log(item)
+const List = (props) => {
+    const data = props.todo;
+    return (
+        <>
+            <div className="row justify-content-center  ">
+                <div className="col-sm-4 bg-secondary pb-3 shadow-lg rounded py-4">
+                    {
+                        data.map((item) => {
+                            const handleDeleteOn = () => props.onDelete(item.id);
+                            const filterValue = props.filterValue
+                            const todoName = item.todo
+                            if (
+                                (!filterValue) ||
+                                (todoName.toLowerCase().search(filterValue.toLowerCase())
+                                    !== -1)
+                            ) {
                                 return <ListItem
-                                    item={item.todo}
+                                    item={todoName}
                                     key={item.id}
                                     handleDelete={handleDeleteOn}
-                                    handleEdit={onEdit}
+                                    handleEdit={props.onEdit}
                                     id={item.id}
+                                    filterVar={filterValue}
+                                    onChecked={props.handleOnCheck}
+                                    checked={item.isChecked}
                                 />
-                            })
-                        }
-                    </div>
+                            }
+                            return null
+                        })
+                    }
                 </div>
-            </>
-        );
-    }
+            </div>
+        </>
+    );
 }
+
 
 export default List;

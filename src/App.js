@@ -1,59 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
 import Form from "./component/form";
 import List from "./component/list";
 
+const App = (props) => {
 
-class App extends React.Component {
+  const [data, setData] = useState([]);
+  const [filterText, setFilterText] = useState('');
 
-  state = {
-    data: [{ id: new Date().getTime().toString(), todo: "Apple" }]
+  const handleCheck = (checked, id) => {
+    const newData = [...data]
+    newData.map((item) => {
+      if (item.id === id) {
+        item.isChecked = checked;
+      }
+      return item
+    });
+    setData(newData)
+    return null
+
+  }
+  const serText = (serVal) => {
+    setFilterText(serVal)
   }
 
-
-  handleSubmit = (newVal) => {
-
-    this.setState({ data: [...this.state.data, newVal] })
+  const handleSubmit = (newVal, val) => {
+    if (data.length === 0) {
+      setData([...data, newVal])
+    } else {
+      data.map((item) => {
+        const validate = data.filter((i) => i.todo.toLowerCase() === val.toLowerCase());
+        if (validate.length === 0) {
+          setData([...data, newVal])
+        } return null
+      });
+    }
 
   }
+  const handleRemove = (index) => {
 
-  handleRemove = (index) => {
-    const { data } = this.state;
-    this.setState({
-      data: data.filter((item) => {
-        return index !== item.id;
-      })
+    const updateItems = data.filter((item) => {
+      return index !== item.id;
     })
+    setData(updateItems);
   }
 
-  handleOnEdit = (editVal, id) => {
-    const { data } = this.state
+  const handleOnEdit = (editVal, id) => {
+    const newData = [...data]
 
-    data.forEach((item) => {
+    newData.map((item) => {
       if (item.id === id) {
         item.todo = editVal;
       }
-
+      return item
     });
-    this.setState({ data: data });
+
+    setData(newData)
   }
 
-  render() {
-    const { data } = this.state;
-    return (
-      <div>
-        <div className="container-fluid ">
-          <Form onSubmit={this.handleSubmit} />
-          <List todo={data}
-            onDelete={this.handleRemove}
-            onEdit={this.handleOnEdit}
-          />
-
-        </div>
+  return (
+    <div>
+      <div className="container-fluid ">
+        <Form onSubmit={handleSubmit}
+          onSearch={serText}
+        />
+        <List todo={data}
+          onDelete={handleRemove}
+          onEdit={handleOnEdit}
+          filterValue={filterText}
+          handleOnCheck={handleCheck}
+        />
       </div>
-
-
-    );
-  }
-
+    </div >
+  )
 }
 export default App;
