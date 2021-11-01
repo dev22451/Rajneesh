@@ -1,24 +1,38 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../redux/todoSlice';
+import { useSelector } from 'react-redux';
 
 const Form = (props) => {
-
-  const [input, setInput] = useState({ id: '', todo: '', isChecked: '' });
+  const todos = useSelector((state) => state.todos);
+  const [input, setInput] = useState();
+  const dispatch = useDispatch();
 
   const handleSearch = (e) => {
-    props.onSearch(e.target.value)
-    setInput({
-      todo: e.target.value, id: new Date().getTime().toString(), isChecked: false,
-    })
-  }
+    setInput(e.target.value)
+  };
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    props.onSubmit(input, input.todo)
-    setInput({ todo: '' })
-    props.onSearch('')
-  }
+    if (todos.length === 0) {
+      dispatch(addTodo({
+        name: input,
+      }))
+    } else {
 
-  const todoVal = input.todo;
+      const validate = todos.filter((i) => i.name.toLowerCase() === input.toLowerCase());
+      if (validate.length === 0) {
+        dispatch(addTodo({
+          name: input,
+        }))
+
+
+      }
+
+    }
+    setInput('');
+
+  };
 
   return (
     <>
@@ -31,7 +45,7 @@ const Form = (props) => {
                 type="text"
                 name="todo"
                 id="todo"
-                value={todoVal}
+                value={input}
                 onChange={handleSearch}
                 className="form-control "
               />
@@ -44,6 +58,6 @@ const Form = (props) => {
         </div >
       </div >
     </>
-  )
-}
+  );
+};
 export default Form;
